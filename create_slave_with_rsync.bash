@@ -1,9 +1,10 @@
 #!/bin/bash 
 ##This is meanst to be run on the slave, with the masters ip as the passed variable. ($1)
 sourcehost="$1"
-datadir=/var/lib/postgresql/9.2/main
-archivedir=/var/lib/postgresql/9.2/archive
-archivedirdest=/var/lib/postgresql/9.2/archive
+ver=10
+datadir=/var/lib/postgresql/${ver}/main
+archivedir=/var/lib/postgresql/${ver}/archive
+archivedirdest=/var/lib/postgresql/${ver}/archive
 
 #Usage
 if [ "$1" = "" ] || [ "$1" = "-h" ] || [ "$1" = "-help" ] || [ "$1" = "--help" ] ;
@@ -40,7 +41,7 @@ fi
 }
 
 CheckIfMasterIsActuallyAMaster () {
-ismaster="$(ssh postgres@"$1" 'if [ -f /var/lib/postgresql/9.2/main/recovery.done ]; then echo "postgres_is_a_master_instance"; else echo "postgres_is_not_master"; fi;')"
+ismaster="$(ssh postgres@"$1" 'if [ -f /var/lib/postgresql/${ver}/main/recovery.done ]; then echo "postgres_is_a_master_instance"; else echo "postgres_is_not_master"; fi;')"
 
 if [[ "$ismaster" = "postgres_is_not_master" ]]
 then 
